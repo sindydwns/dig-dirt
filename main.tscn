@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckob38xjhhthu"]
+
+[ext_resource type="PackedScene" uid="uid://dogll15lv6dtj" path="res://player.tscn" id="1_q0xc5"]
+[ext_resource type="Script" path="res://main.gd" id="1_w7560"]
+[ext_resource type="PackedScene" uid="uid://bdj1x32n7pg15" path="res://map.tscn" id="3_ua01s"]
+[ext_resource type="PackedScene" uid="uid://ba6oxhciwmxek" path="res://hud.tscn" id="4_r4qb8"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_w7560")
+
+[node name="map" parent="." instance=ExtResource("3_ua01s")]
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_q0xc5")]
+position = Vector2(26, 22)
+
+[node name="hud" parent="." instance=ExtResource("4_r4qb8")]

@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdj1x32n7pg15"]
+
+[ext_resource type="TileSet" uid="uid://byqk1dog5y66e" path="res://tiles.tres" id="1_n8i3k"]
+[ext_resource type="Script" path="res://map.gd" id="2_5i3c5"]
+
+[node name="map" type="TileMap"]
+texture_filter = 1
+tile_set = ExtResource("1_n8i3k")
+format = 2
+layer_0/name = "background"
+layer_0/tile_data = PackedInt32Array(0, 65538, 0, 65536, 65538, 0, 131072, 65538, 0, 131073, 65538, 0, 65538, 65538, 0, 2, 65538, 0, 1, 65538, 0, 65537, 65538, 0, 131074, 65538, 0, -1, 65538, 0, -65536, 65538, 0, -65535, 65538, 0, -65534, 65538, 0, -65533, 65538, 0, 3, 65538, 0, 65539, 65538, 0, 131075, 65538, 0, 196611, 65538, 0, 196610, 65538, 0, 196609, 65538, 0, 196608, 65538, 0, 262143, 65538, 0, 196607, 65538, 0, 131071, 65538, 0, 65535, 65538, 0)
+layer_1/name = "ground"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array(-1, 65538, 1, 65535, 2, 2, 131071, 2, 2, 196607, 2, 2, 262143, 65538, 3, 196608, 131074, 4, 196609, 131074, 4, 196610, 131074, 4, 196611, 196610, 3, 131075, 2, 2, 65539, 2, 2, -65533, 131074, 1, -65534, 131074, 4, -65535, 131074, 4, -65536, 131074, 4, 3, 2, 2)
+layer_2/name = "ore"
+layer_2/enabled = true
+layer_2/modulate = Color(1, 1, 1, 1)
+layer_2/y_sort_enabled = false
+layer_2/y_sort_origin = 0
+layer_2/z_index = 0
+layer_2/tile_data = PackedInt32Array()
+layer_3/name = "broken"
+layer_3/enabled = true
+layer_3/modulate = Color(1, 1, 1, 1)
+layer_3/y_sort_enabled = false
+layer_3/y_sort_origin = 0
+layer_3/z_index = 0
+layer_3/tile_data = PackedInt32Array()
+script = ExtResource("2_5i3c5")
