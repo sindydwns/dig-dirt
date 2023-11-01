@@ -1,4 +1,4 @@
-extends Panel
+extends ProgressBar
 
 const Enums = preload("res://Enums.gd")
 
@@ -18,7 +18,7 @@ func _ready():
 		return
 	node.connect(signal_name, update_value)
 
-func update_value(type: Enums.Values, value):
-	if type == key:
+func update_value(ore_type: Enums.Ores, value):
+	if ore_type == key:
 		var value_label: Label = get_node("value")
 		value_label.text = str(value)

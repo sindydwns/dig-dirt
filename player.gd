@@ -1,7 +1,23 @@
 extends CharacterBody2D
 
+const Enums = preload("res://Enums.gd")
+
 const SPEED = 50.0
 const TILE_SIZE = 16
+
+var ores = {}
+@export var stamina : float = 100.0
+
+signal on_changed_ore_cnt(ore: Enums.Ores, cnt: int)
+signal on_changed_player_stat(stat: Enums.PlayerStat, value: float)
+
+func _enter_tree():
+	for ore in Enums.Ores.values():
+		ores[ore] = 0
+
+func _ready():
+	for ore in Enums.Ores.values():
+		emit_signal("on_changed_ore_cnt", ore, 0)
 
 func _physics_process(delta):
 	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized()
@@ -25,6 +41,10 @@ func _physics_process(delta):
 	if direction.length() > 0:
 		move_and_slide_dig_action(direction, delta)
 
+func broken_ore(global_pos: Vector2, ore: Enums.Ores):
+	ores[ore] += 1
+	emit_signal("on_changed_ore_cnt", ore, ores[ore])
+
 func move_and_slide_dig_action(direction: Vector2, power):
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
@@ -36,4 +56,6 @@ func move_and_slide_dig_action(direction: Vector2, power):
 			continue
 		var wall_position = collision_direction + collision.get_position()
 		collider.damage_to_wall(wall_position, power)
+		stamina -= 0.1
+		emit_signal("on_changed_player_stat", Enums.PlayerStat.Stamina, stamina)
 		return

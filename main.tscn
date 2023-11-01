@@ -10,7 +10,7 @@ script = ExtResource("1_w7560")
 
 [node name="map" parent="." instance=ExtResource("3_ua01s")]
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("1_q0xc5")]
+[node name="player" parent="." instance=ExtResource("1_q0xc5")]
 position = Vector2(26, 22)
 
 [node name="hud" parent="." instance=ExtResource("4_r4qb8")]

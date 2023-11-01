@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://ba6oxhciwmxek"]
+[gd_scene load_steps=4 format=3 uid="uid://ba6oxhciwmxek"]
 
 [ext_resource type="Script" path="res://label.gd" id="1_52gal"]
+[ext_resource type="Script" path="res://hud.gd" id="1_x20kf"]
+[ext_resource type="Script" path="res://progressBar.gd" id="3_4t2d0"]
 
 [node name="hud" type="CanvasLayer"]
+script = ExtResource("1_x20kf")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -14,6 +17,7 @@ offset_left = 1.0
 offset_right = 151.0
 offset_bottom = 50.0
 script = ExtResource("1_52gal")
+signal_name = "on_changed_ore_cnt"
 key = 1
 
 [node name="Label" type="Label" parent="Control/iron_label"]
@@ -44,6 +48,7 @@ offset_top = 50.0
 offset_right = 151.0
 offset_bottom = 100.0
 script = ExtResource("1_52gal")
+signal_name = "on_changed_ore_cnt"
 key = 2
 
 [node name="Label" type="Label" parent="Control/silver_label"]
@@ -74,6 +79,7 @@ offset_top = 100.0
 offset_right = 151.0
 offset_bottom = 150.0
 script = ExtResource("1_52gal")
+signal_name = "on_changed_ore_cnt"
 key = 3
 
 [node name="Label" type="Label" parent="Control/gold_label"]
@@ -96,3 +102,11 @@ offset_top = 12.0
 offset_right = 127.0
 offset_bottom = 38.0
 text = "0"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control"]
+layout_mode = 0
+offset_top = 154.0
+offset_right = 153.0
+offset_bottom = 181.0
+value = 24.64
+script = ExtResource("3_4t2d0")
