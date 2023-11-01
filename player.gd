@@ -15,8 +15,9 @@ func _enter_tree():
 	for ore in Enums.Ores.keys():
 		ores[ore] = 0
 	property.init({
-		"ores": ores,
-		"stamina": 100,
+		"Ores": ores,
+		"Stamina": 100,
+		"StaminaMax": 100,
 	})
 	add_child(property)
 
@@ -43,7 +44,7 @@ func _physics_process(delta):
 		move_and_slide_dig_action(direction, delta)
 
 func broken_ore(global_pos: Vector2, ore: Enums.Ores):
-	property["ores/" + Enums.Ores.find_key(ore)].value += 1
+	property["Ores/" + Enums.Ores.find_key(ore)].value += 1
 
 func move_and_slide_dig_action(direction: Vector2, power):
 	for i in get_slide_collision_count():
@@ -56,5 +57,5 @@ func move_and_slide_dig_action(direction: Vector2, power):
 			continue
 		var wall_position = collision_direction + collision.get_position()
 		collider.damage_to_wall(wall_position, power)
-		property["stamina"].value -= 0.1
+		property["Stamina"].value -= 0.1
 		return

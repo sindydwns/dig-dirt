@@ -1,24 +1,29 @@
 extends Panel
 
-const Enums = preload("res://Enums.gd")
+@export var path: String
 
-@export var signal_name : String
-@export var key : Enums.Values
-
-func find_parent_with_signal(node, signal_name):
+func find_ref(node: Node) -> PropertyRef:
 	while node:
-		if node.has_signal(signal_name):
+		if node is PropertyRef:
 			return node
 		node = node.get_parent()
 	return null
 
 func _ready():
-	var node: Node = find_parent_with_signal(self, signal_name)
-	if node == null:
+	var ref = find_ref(self)
+	if ref == null:
+		print_debug("label: <", name, "> ref is null")
 		return
-	node.connect(signal_name, update_value)
+	ref.subscribe(path, subscribe)
 
-func update_value(type: Enums.Values, value):
-	if type == key:
-		var value_label: Label = get_node("value")
-		value_label.text = str(value)
+func subscribe(target: Node):
+	var property = target.get_node(path)
+	if property == null or not property is Property:
+		print_debug("label: <", name, "> subscribe error")
+		return
+	update_value(property.value)
+	property.connect("changed", update_value)
+
+func update_value(value):
+	var value_label: Label = get_node("value")
+	value_label.text = str(value)

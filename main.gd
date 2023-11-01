@@ -5,8 +5,7 @@ func _enter_tree():
 
 func _ready():
 	get_node("map").connect("broken_ore", get_node("player").broken_ore)
-	get_node("player").connect("on_changed_ore_cnt", get_node("hud").set_ore_cnt)
-	get_node("player").connect("on_changed_player_stat", get_node("hud").set_player_stat)
+	get_node("hud").provide(get_node("player"))
 
 func _print(value):
 	print(value)
