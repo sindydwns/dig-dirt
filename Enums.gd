@@ -1,8 +1,8 @@
 enum Ores {
-	NONE = 0,
-	IRON = 1,
-	SILVER = 2,
-	GOLD = 3,
+	None = 0,
+	Iron = 1,
+	Silver = 2,
+	Gold = 3,
 }
 
 enum PlayerStat {
@@ -12,8 +12,8 @@ enum PlayerStat {
 
 enum Values {
 	None = 0,
-	IRON = 1,
-	SILVER = 2,
-	GOLD = 3,
+	Iron = 1,
+	Silver = 2,
+	Gold = 3,
 	Stamina = 100,
 }
