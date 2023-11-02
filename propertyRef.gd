@@ -76,28 +76,27 @@ func _add_reserved(node: Node, path: String, callable: Callable):
 	if property_paths.has(path):
 		property_paths[path].connect("changed", callable)
 
-func provide(node: Node):
+func emit(node: Node):
 	if node is Property:
-		_provide([], node)
+		_emit([], node)
 		return
 	for child in node.get_children():
 		if not child is Property:
 			continue
-		_provide([], child)
+		_emit([], child)
 
-func _provide(pathArr: Array, node: Node):
+func _emit(pathArr: Array, node: Node):
 	if not node is Property:
 		return
 	var property: Property = node
 	pathArr.push_back(property.name)
-	
 	if property.is_leaf:
 		var path = "/".join(pathArr)
 		_remove_property(path)
 		_add_property(path, property)
 	else:
 		for child in node.get_children():
-			_provide(pathArr, child)
+			_emit(pathArr, child)
 	pathArr.pop_back()
 
 func _add_property(path: String, property: Property):
