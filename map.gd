@@ -26,7 +26,13 @@ const TERRAIN_TILE_DIRT = 0
 
 var damage = {}
 
+var event: Subject
 signal broken_ore(global_pos: Vector2, ore_type: Enums.Ores)
+
+func _enter_tree():
+	event = Subject.create_tree("event")
+	event.append("mine", {})
+	add_child(event)
 
 func damage_to_wall(global_pos: Vector2, value):
 	var tile_pos = local_to_map(global_pos)
@@ -74,6 +80,10 @@ func _break_wall(tile_pos: Vector2i):
 	var ore = get_cell_tile_data(ORE_LAYER, tile_pos)
 	if ore != null:
 		var ore_type = ore.get_custom_data("ore_type")
+		event.at("mine").emit({
+			"type": ore_type,
+			"pos": map_to_local(tile_pos),
+		});
 		emit_signal("broken_ore", map_to_local(tile_pos), ore_type)
 	damage.erase(tile_pos)
 	set_cell(BACKGROUND_LAYER, tile_pos, TILE_ATLAS, BACKGROUND_TILE)

@@ -14,7 +14,7 @@ var use = false
 func emit(value):
 	changed.emit(value)
 
-func at(path) -> Node:
+func at(path) -> Subject:
 	return get_node(path)
 
 func _init(name:String, value, is_tree: bool):

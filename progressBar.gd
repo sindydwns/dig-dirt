@@ -9,7 +9,6 @@ func link(property: Subject):
 	property[path].connect("changed", func(value): self.value = value)
 	property[max_path].connect("changed", func(value): self.max_value = value)
 
-
 func find_ref(node: Node) -> SubjectRef:
 	while node:
 		if node is SubjectRef:

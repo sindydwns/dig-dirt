@@ -88,16 +88,16 @@ func _remove_reserved(node: Node, path: String):
 	if reserved_paths[path].size() == 0:
 		reserved_paths.erase(path)
 
-func emit(node: Node):
+func use(node: Node):
 	if node is Subject:
-		_emit([], node)
+		_use([], node)
 		return
 	for child in node.get_children():
 		if not child is Subject:
 			continue
-		_emit([], child)
+		_use([], child)
 
-func _emit(pathArr: Array, node: Node):
+func _use(pathArr: Array, node: Node):
 	if not node is Subject:
 		return
 	var subject: Subject = node
@@ -107,7 +107,7 @@ func _emit(pathArr: Array, node: Node):
 		_remove_subject(path)
 		_add_subject(path, subject)
 	for child in node.get_children():
-		_emit(pathArr, child)
+		_use(pathArr, child)
 	pathArr.pop_back()
 
 func _add_subject(path: String, subject: Subject):
