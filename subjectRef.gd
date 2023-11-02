@@ -1,8 +1,8 @@
-class_name PropertyRef
+class_name SubjectRef
 extends Node
 
-var property_paths = {}
-'''property_paths
+var subject_paths = {}
+'''subject_paths
 {
 	"player/Ores/Iron": Node,
 	"player/Ores/Iron": Node,
@@ -54,11 +54,11 @@ func _add_reserved(node: Node, path: String, callable: Callable, option: Option 
 	if not reserved_paths.has(path):
 		reserved_paths[path] = {}
 	reserved_paths[path][id] = callable
-	if property_paths.has(path):
-		var property: Property = property_paths[path]
-		property.changed.connect(callable)
+	if subject_paths.has(path):
+		var subject: Subject = subject_paths[path]
+		subject.changed.connect(callable)
 		if option | Option.WITH_FIRST_VALUE:
-			callable.call(property.value)
+			callable.call(subject.value)
 
 func _remove_reserved_all(node: Node):
 	print(node)
@@ -78,8 +78,8 @@ func _remove_reserved(node: Node, path: String):
 		return
 	if not reserved[id].has(path):
 		return
-	if property_paths.has(path):
-		property_paths[path].changed.disconnect(reserved[id][path]["callable"])
+	if subject_paths.has(path):
+		subject_paths[path].changed.disconnect(reserved[id][path]["callable"])
 	reserved[id].erase(path)
 	if reserved[id].size() == 0:
 		reserved.erase(id)
@@ -89,46 +89,46 @@ func _remove_reserved(node: Node, path: String):
 		reserved_paths.erase(path)
 
 func emit(node: Node):
-	if node is Property:
+	if node is Subject:
 		_emit([], node)
 		return
 	for child in node.get_children():
-		if not child is Property:
+		if not child is Subject:
 			continue
 		_emit([], child)
 
 func _emit(pathArr: Array, node: Node):
-	if not node is Property:
+	if not node is Subject:
 		return
-	var property: Property = node
-	pathArr.push_back(property.name)
-	if property.use:
+	var subject: Subject = node
+	pathArr.push_back(subject.name)
+	if subject.use:
 		var path = "/".join(pathArr)
-		_remove_property(path)
-		_add_property(path, property)
+		_remove_subject(path)
+		_add_subject(path, subject)
 	for child in node.get_children():
 		_emit(pathArr, child)
 	pathArr.pop_back()
 
-func _add_property(path: String, property: Property):
-	if path.is_empty() or property == null:
+func _add_subject(path: String, subject: Subject):
+	if path.is_empty() or subject == null:
 		return
-	property_paths[path] = property
-	property.tree_exiting.connect(_remove_property.bind(path))
+	subject_paths[path] = subject
+	subject.tree_exiting.connect(_remove_subject.bind(path))
 	if reserved_paths.has(path):
 		for key in reserved_paths[path].keys():
 			var callable = reserved_paths[path][key]
-			property.changed.connect(callable)
+			subject.changed.connect(callable)
 			if reserved[key][path]["option"] | Option.WITH_FIRST_VALUE:
-				callable.call(property.value)
+				callable.call(subject.value)
 
-func _remove_property(path: String):
-	if path.is_empty() or not property_paths.has(path):
+func _remove_subject(path: String):
+	if path.is_empty() or not subject_paths.has(path):
 		return
-	var property: Property = property_paths[path]
-	property.tree_exiting.disconnect(_remove_property.bind(path))
+	var subject: Subject = subject_paths[path]
+	subject.tree_exiting.disconnect(_remove_subject.bind(path))
 	if reserved_paths.has(path):
 		for key in reserved_paths[path].keys():
 			var callable = reserved_paths[path][key]
-			property.changed.disconnect(callable)
-	property_paths.erase(path)
+			subject.changed.disconnect(callable)
+	subject_paths.erase(path)

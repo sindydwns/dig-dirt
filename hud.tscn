@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://ba6oxhciwmxek"]
 
-[ext_resource type="Script" path="res://propertyRef.gd" id="1_7ret5"]
 [ext_resource type="Script" path="res://label.gd" id="1_52gal"]
+[ext_resource type="Script" path="res://subjectRef.gd" id="1_uavjd"]
 [ext_resource type="Script" path="res://progressBar.gd" id="3_4t2d0"]
 
 [node name="hud" type="CanvasLayer"]
-script = ExtResource("1_7ret5")
+script = ExtResource("1_uavjd")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

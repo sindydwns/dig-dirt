@@ -1,4 +1,4 @@
-class_name Property
+class_name Subject
 extends Node
 
 signal changed(value)
@@ -26,18 +26,18 @@ func _init(name:String, value, is_tree: bool):
 		use = true
 	self.name = name
 
-func append(name: String, value, is_tree: bool = false) -> Property:
+func append(name: String, value, is_tree: bool = false) -> Subject:
 	if has_node(name):
 		print_debug("property: duplicated node name <", name, ">")
-	add_child(Property.new(name, value, is_tree))
+	add_child(Subject.new(name, value, is_tree))
 	return self
 
-func append_tree(name: String, value) -> Property:
+func append_tree(name: String, value) -> Subject:
 	append(name, value, true)
 	return self
 
-static func create(name:String, value) -> Property:
-	return Property.new(name, value, false)
+static func create(name:String, value) -> Subject:
+	return Subject.new(name, value, false)
 
-static func create_tree(name: String) -> Property:
-	return Property.new(name, {}, true)
+static func create_tree(name: String) -> Subject:
+	return Subject.new(name, {}, true)

@@ -5,13 +5,13 @@ const Enums = preload("res://Enums.gd")
 const SPEED = 50.0
 const TILE_SIZE = 16
 
-var property: Property
+var property: Subject
 
 func _enter_tree():
 	var ores = {}
 	for ore in Enums.Ores.keys():
 		ores[ore] = 0
-	property = Property.create_tree(name)
+	property = Subject.create_tree(name)
 	property.append_tree("Ores", ores)
 	property.append("Stamina", 100)
 	property.append("StaminaMax", 100)
