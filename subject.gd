@@ -9,7 +9,7 @@ var value:
 		value = new_value
 		changed.emit(value)
 
-var use = false
+var use_value = false
 
 func emit(value):
 	changed.emit(value)
@@ -23,7 +23,7 @@ func _init(name:String, value, is_tree: bool):
 			append(str(key), value[key], true)
 	else:
 		self.value = value
-		use = true
+		use_value = true
 	self.name = name
 
 func append(name: String, value, is_tree: bool = false) -> Subject:

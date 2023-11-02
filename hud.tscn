@@ -1,11 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://ba6oxhciwmxek"]
 
 [ext_resource type="Script" path="res://label.gd" id="1_52gal"]
-[ext_resource type="Script" path="res://subjectRef.gd" id="1_uavjd"]
 [ext_resource type="Script" path="res://progressBar.gd" id="3_4t2d0"]
+[ext_resource type="PackedScene" uid="uid://c6b63npafpgl8" path="res://subject_cluster.tscn" id="4_eh70d"]
 
 [node name="hud" type="CanvasLayer"]
-script = ExtResource("1_uavjd")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -17,7 +16,7 @@ offset_left = 1.0
 offset_right = 151.0
 offset_bottom = 50.0
 script = ExtResource("1_52gal")
-path = "player/Ores/Iron"
+path = "ores/Iron"
 
 [node name="Label" type="Label" parent="Control/iron_label"]
 layout_mode = 1
@@ -47,7 +46,7 @@ offset_top = 50.0
 offset_right = 151.0
 offset_bottom = 100.0
 script = ExtResource("1_52gal")
-path = "player/Ores/Silver"
+path = "ores/Silver"
 
 [node name="Label" type="Label" parent="Control/silver_label"]
 layout_mode = 1
@@ -77,7 +76,7 @@ offset_top = 100.0
 offset_right = 151.0
 offset_bottom = 150.0
 script = ExtResource("1_52gal")
-path = "player/Ores/Gold"
+path = "ores/Gold"
 
 [node name="Label" type="Label" parent="Control/gold_label"]
 layout_mode = 1
@@ -107,5 +106,8 @@ offset_right = 153.0
 offset_bottom = 181.0
 value = 24.64
 script = ExtResource("3_4t2d0")
-path = "player/Stamina"
-max_path = "player/StaminaMax"
+path = "stamina"
+max_path = "staminaMax"
+
+[node name="_data" parent="." instance=ExtResource("4_eh70d")]
+unique_name_in_owner = true

@@ -1,4 +1,4 @@
-class_name SubjectRef
+class_name SubjectCluster
 extends Node
 
 var subject_paths = {}
@@ -88,9 +88,8 @@ func _remove_reserved(node: Node, path: String):
 	if reserved_paths[path].size() == 0:
 		reserved_paths.erase(path)
 
-func use(node: Node):
-	if node is Subject:
-		_use([], node)
+func use(node: SubjectCluster):
+	if node == null or not node is SubjectCluster:
 		return
 	for child in node.get_children():
 		if not child is Subject:
@@ -102,7 +101,7 @@ func _use(pathArr: Array, node: Node):
 		return
 	var subject: Subject = node
 	pathArr.push_back(subject.name)
-	if subject.use:
+	if subject.use_value:
 		var path = "/".join(pathArr)
 		_remove_subject(path)
 		_add_subject(path, subject)
@@ -132,3 +131,22 @@ func _remove_subject(path: String):
 			var callable = reserved_paths[path][key]
 			subject.changed.disconnect(callable)
 	subject_paths.erase(path)
+
+func at(path) -> Subject:
+	return get_node(path)
+
+func append(name: String, value, is_tree: bool = false) -> SubjectCluster:
+	if has_node(name):
+		print_debug("property: duplicated node name <", name, ">")
+	add_child(Subject.new(name, value, is_tree))
+	return self
+
+func append_tree(name: String, value) -> SubjectCluster:
+	append(name, value, true)
+	return self
+
+static func create(name:String, value) -> Subject:
+	return Subject.new(name, value, false)
+
+static func create_tree(name: String) -> Subject:
+	return Subject.new(name, {}, true)

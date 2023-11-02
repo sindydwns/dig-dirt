@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6b63npafpgl8"]
+
+[ext_resource type="Script" path="res://subject_cluster.gd" id="1_ldwpe"]
+
+[node name="subject_cluster" type="Node"]
+script = ExtResource("1_ldwpe")

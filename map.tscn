@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bdj1x32n7pg15"]
+[gd_scene load_steps=4 format=3 uid="uid://bdj1x32n7pg15"]
 
 [ext_resource type="TileSet" uid="uid://byqk1dog5y66e" path="res://tiles.tres" id="1_n8i3k"]
 [ext_resource type="Script" path="res://map.gd" id="2_5i3c5"]
+[ext_resource type="PackedScene" uid="uid://c6b63npafpgl8" path="res://subject_cluster.tscn" id="3_ottpf"]
 
 [node name="map" type="TileMap"]
 texture_filter = 1
@@ -31,3 +32,6 @@ layer_3/y_sort_origin = 0
 layer_3/z_index = 0
 layer_3/tile_data = PackedInt32Array()
 script = ExtResource("2_5i3c5")
+
+[node name="_data" parent="." instance=ExtResource("3_ottpf")]
+unique_name_in_owner = true

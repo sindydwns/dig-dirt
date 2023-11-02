@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dogll15lv6dtj"]
+[gd_scene load_steps=5 format=3 uid="uid://dogll15lv6dtj"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_f0s6m"]
 [ext_resource type="Texture2D" uid="uid://84ukgo023xin" path="res://icon.svg" id="1_nj6ri"]
+[ext_resource type="PackedScene" uid="uid://c6b63npafpgl8" path="res://subject_cluster.tscn" id="3_xmlv7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1326q"]
 radius = 7.0
@@ -21,3 +22,6 @@ zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="_data" parent="." instance=ExtResource("3_xmlv7")]
+unique_name_in_owner = true
