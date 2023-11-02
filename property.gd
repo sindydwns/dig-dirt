@@ -9,6 +9,8 @@ var value:
 		value = new_value
 		changed.emit(value)
 
+var is_leaf = false
+
 func emit():
 	changed.emit(value)
 
@@ -22,3 +24,4 @@ func init(value):
 			add_child(node)
 	else:
 		self.value = value
+		is_leaf = true
