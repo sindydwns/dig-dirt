@@ -34,7 +34,27 @@ func subscribe(node: Node, path: String, callable: Callable):
 	_remove_reserved(node, path)
 	_add_reserved(node, path, callable)
 
+func _add_reserved(node: Node, path: String, callable: Callable):
+	if node == null or path.is_empty():
+		return
+	var id = node.get_instance_id()
+	if not reserved.has(id):
+		reserved[id] = {}
+		node.tree_exiting.connect(_remove_reserved_all.bind(node))
+	reserved[id][path] = {
+		"node": node,
+		"callable": callable,
+	}
+	if not reserved_paths.has(path):
+		reserved_paths[path] = {}
+	reserved_paths[path][id] = callable
+	if property_paths.has(path):
+		var property: Property = property_paths[path]
+		property.changed.connect(callable)
+		callable.call(property.value)
+
 func _remove_reserved_all(node: Node):
+	print(node)
 	if node == null:
 		return
 	var id = node.get_instance_id()
@@ -56,25 +76,10 @@ func _remove_reserved(node: Node, path: String):
 	reserved[id].erase(path)
 	if reserved[id].size() == 0:
 		reserved.erase(id)
+		node.tree_exiting.disconnect(_remove_reserved_all.bind(node))
 	reserved_paths[path].erase(id)
 	if reserved_paths[path].size() == 0:
 		reserved_paths.erase(path)
-
-func _add_reserved(node: Node, path: String, callable: Callable):
-	if node == null or path.is_empty():
-		return
-	var id = node.get_instance_id()
-	if not reserved.has(id):
-		reserved[id] = {}
-	reserved[id][path] = {
-		"node": node,
-		"callable": callable,
-	}
-	if not reserved_paths.has(path):
-		reserved_paths[path] = {}
-	reserved_paths[path][id] = callable
-	if property_paths.has(path):
-		property_paths[path].connect("changed", callable)
 
 func emit(node: Node):
 	if node is Property:
@@ -103,17 +108,20 @@ func _add_property(path: String, property: Property):
 	if path.is_empty():
 		return
 	property_paths[path] = property
+	property.tree_exiting.disconnect(_remove_property.bind(path))
 	if reserved_paths.has(path):
 		for key in reserved_paths[path].keys():
 			var callable = reserved_paths[path][key]
-			property.connect("changed", callable)
+			property.changed.connect(callable)
+			callable.call(property.value)
 
 func _remove_property(path: String):
 	if path.is_empty() or not property_paths.has(path):
 		return
-	property_paths[path]
+	var property: Property = property_paths[path]
+	property.tree_exiting.disconnect(_remove_property.bind(path))
 	if reserved_paths.has(path):
 		for key in reserved_paths[path].keys():
 			var callable = reserved_paths[path][key]
-			property_paths[path].changed.disconnect(callable)
+			property.changed.disconnect(callable)
 	property_paths.erase(path)
