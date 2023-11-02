@@ -5,12 +5,11 @@ const Enums = preload("res://Enums.gd")
 const SPEED = 50.0
 const TILE_SIZE = 16
 
-@onready var stamina = $stamina
-var property
+var property: Property
 
 func _enter_tree():
 	property = Property.new()
-	property.name = "property"
+	property.name = name
 	var ores = {}
 	for ore in Enums.Ores.keys():
 		ores[ore] = 0
@@ -44,7 +43,7 @@ func _physics_process(delta):
 		move_and_slide_dig_action(direction, delta)
 
 func broken_ore(global_pos: Vector2, ore: Enums.Ores):
-	property["Ores/" + Enums.Ores.find_key(ore)].value += 1
+	property.get_node("Ores/" + Enums.Ores.find_key(ore)).value += 1
 
 func move_and_slide_dig_action(direction: Vector2, power):
 	for i in get_slide_collision_count():
@@ -57,5 +56,5 @@ func move_and_slide_dig_action(direction: Vector2, power):
 			continue
 		var wall_position = collision_direction + collision.get_position()
 		collider.damage_to_wall(wall_position, power)
-		property["Stamina"].value -= 0.1
+		property.get_node("Stamina").value -= 0.1
 		return

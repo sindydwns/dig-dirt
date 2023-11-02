@@ -22,6 +22,3 @@ func init(value):
 			add_child(node)
 	else:
 		self.value = value
-
-func _get(key):
-	return get_node("./" + key)
