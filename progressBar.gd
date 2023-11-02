@@ -22,5 +22,5 @@ func _ready():
 	if ref == null:
 		print_debug("label: <", name, "> ref is null")
 		return
-	ref.subscribe(self, path, func(value): self.value = value)
-	ref.subscribe(self, max_path, func(value): self.max_value = value)
+	ref.subscribe(self, path, func(value): self.value = value, PropertyRef.Option.WITH_FIRST_VALUE)
+	ref.subscribe(self, max_path, func(value): self.max_value = value, PropertyRef.Option.WITH_FIRST_VALUE)

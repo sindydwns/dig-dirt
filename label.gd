@@ -14,7 +14,7 @@ func _ready():
 	if ref == null:
 		print_debug("label: <", name, "> ref is null")
 		return
-	ref.subscribe(self, path, update_value)
+	ref.subscribe(self, path, update_value, PropertyRef.Option.WITH_FIRST_VALUE)
 
 func update_value(value):
 	var value_label: Label = get_node("value")

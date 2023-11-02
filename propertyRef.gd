@@ -30,11 +30,16 @@ var reserved_paths = {}
 }
 '''
 
-func subscribe(node: Node, path: String, callable: Callable):
-	_remove_reserved(node, path)
-	_add_reserved(node, path, callable)
+enum Option {
+	None = 0,
+	WITH_FIRST_VALUE = 1,
+}
 
-func _add_reserved(node: Node, path: String, callable: Callable):
+func subscribe(node: Node, path: String, callable: Callable, option: Option = Option.None):
+	_remove_reserved(node, path)
+	_add_reserved(node, path, callable, option)
+
+func _add_reserved(node: Node, path: String, callable: Callable, option: Option = Option.None):
 	if node == null or path.is_empty():
 		return
 	var id = node.get_instance_id()
@@ -44,6 +49,7 @@ func _add_reserved(node: Node, path: String, callable: Callable):
 	reserved[id][path] = {
 		"node": node,
 		"callable": callable,
+		"option": option,
 	}
 	if not reserved_paths.has(path):
 		reserved_paths[path] = {}
@@ -51,7 +57,8 @@ func _add_reserved(node: Node, path: String, callable: Callable):
 	if property_paths.has(path):
 		var property: Property = property_paths[path]
 		property.changed.connect(callable)
-		callable.call(property.value)
+		if option | Option.WITH_FIRST_VALUE:
+			callable.call(property.value)
 
 func _remove_reserved_all(node: Node):
 	print(node)
@@ -95,25 +102,25 @@ func _emit(pathArr: Array, node: Node):
 		return
 	var property: Property = node
 	pathArr.push_back(property.name)
-	if property.is_leaf:
+	if property.use:
 		var path = "/".join(pathArr)
 		_remove_property(path)
 		_add_property(path, property)
-	else:
-		for child in node.get_children():
-			_emit(pathArr, child)
+	for child in node.get_children():
+		_emit(pathArr, child)
 	pathArr.pop_back()
 
 func _add_property(path: String, property: Property):
-	if path.is_empty():
+	if path.is_empty() or property == null:
 		return
 	property_paths[path] = property
-	property.tree_exiting.disconnect(_remove_property.bind(path))
+	property.tree_exiting.connect(_remove_property.bind(path))
 	if reserved_paths.has(path):
 		for key in reserved_paths[path].keys():
 			var callable = reserved_paths[path][key]
 			property.changed.connect(callable)
-			callable.call(property.value)
+			if reserved[key][path]["option"] | Option.WITH_FIRST_VALUE:
+				callable.call(property.value)
 
 func _remove_property(path: String):
 	if path.is_empty() or not property_paths.has(path):

@@ -8,16 +8,14 @@ const TILE_SIZE = 16
 var property: Property
 
 func _enter_tree():
-	property = Property.new()
-	property.name = name
 	var ores = {}
 	for ore in Enums.Ores.keys():
 		ores[ore] = 0
-	property.init({
+	property = Property.new(name, {
 		"Ores": ores,
 		"Stamina": 100,
 		"StaminaMax": 100,
-	})
+	}, true)
 	add_child(property)
 
 func _physics_process(delta):

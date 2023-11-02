@@ -9,19 +9,22 @@ var value:
 		value = new_value
 		changed.emit(value)
 
-var is_leaf = false
+var use = false
 
 func emit():
 	changed.emit(value)
 
-func init(value):
-	if value is Dictionary:
+func _init(name:String, value, is_tree: bool = false):
+	if is_tree and value is Dictionary:
 		for key in value:
-			var node = Node.new()
-			node.name = str(key)
-			node.set_script(self.get_script())
-			node.init(value[key])
-			add_child(node)
+			append(str(key), value[key], true)
 	else:
 		self.value = value
-		is_leaf = true
+		use = true
+	self.name = name
+
+func append(name:String, value, is_tree: bool = false) -> Property:
+	if has_node(name):
+		print_debug("property: duplicated node name <", name, ">")
+	add_child(Property.new(name, value, is_tree))
+	return self
