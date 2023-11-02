@@ -11,11 +11,10 @@ func _enter_tree():
 	var ores = {}
 	for ore in Enums.Ores.keys():
 		ores[ore] = 0
-	property = Property.new(name, {
-		"Ores": ores,
-		"Stamina": 100,
-		"StaminaMax": 100,
-	}, true)
+	property = Property.create_tree(name)
+	property.append_tree("Ores", ores)
+	property.append("Stamina", 100)
+	property.append("StaminaMax", 100)
 	add_child(property)
 
 func _physics_process(delta):
